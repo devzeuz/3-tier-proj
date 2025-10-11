@@ -1,6 +1,5 @@
 provider "aws" {
   region = var.aws_region
-
 }
 
 terraform {
@@ -12,10 +11,10 @@ terraform {
   }
 
   backend "remote" {
-    organization = "learning-hcp-tf"
+    organization = "practice-lab-"
 
     workspaces {
-      name = "learning-tf-workspace"
+      name = "3-tier-proj"
     }
   }
 }
