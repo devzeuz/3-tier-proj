@@ -10,11 +10,13 @@ terraform {
     }
   }
 
-  backend "remote" {
+  cloud {
     organization = "practice-lab-"
 
     workspaces {
       name = "3-tier-proj"
     }
   }
+
+  required_version = ">= 1.5.0"
 }
