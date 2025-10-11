@@ -10,11 +10,11 @@ terraform {
       name = "3-tier-proj"
     }
   }
-  
+
   required_providers {
     aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
+      source = "hashicorp/aws"
+      version = "6.16.0"
     }
   }
 
