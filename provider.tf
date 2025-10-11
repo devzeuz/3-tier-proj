@@ -3,18 +3,18 @@ provider "aws" {
 }
 
 terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 5.0"
-    }
-  }
-
   cloud {
     organization = "practice-lab-"
 
     workspaces {
       name = "3-tier-proj"
+    }
+  }
+  
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
     }
   }
 
