@@ -1,6 +1,6 @@
 module "s3" {
   source = "./module/s3"
-  identifier_arn = var.identifier_arn
+  # identifier_arn = var.identifier_arn
 }
 
 module "dynamodb" {

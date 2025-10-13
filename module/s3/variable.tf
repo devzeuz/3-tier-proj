@@ -16,6 +16,6 @@ variable error_document {
   default     = "error.html" 
 }
 
-variable "identifier_arn"{
-  type = string
-}
+# variable "identifier_arn"{
+#   type = string
+# }

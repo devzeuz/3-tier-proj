@@ -4,6 +4,6 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
-variable "identifier_arn"{
-  type = string
-}
+# variable "identifier_arn"{
+#   type = string
+# }
