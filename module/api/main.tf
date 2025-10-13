@@ -23,17 +23,17 @@ resource "aws_api_gateway_integration" "test_int" {
   uri = local.function_uri
 }
 
-# resource "aws_api_gateway_deployment" "test_deploy" {
-#     rest_api_id = aws_api_gateway_rest_api.test_api.id
+resource "aws_api_gateway_deployment" "test_deploy" {
+    rest_api_id = aws_api_gateway_rest_api.test_api.id
 
-#     triggers = {
-#       redeployment = sha1(jsonencode(aws_api_gateway_integration.test_int))
-#     }
+    triggers = {
+      redeployment = sha1(jsonencode(aws_api_gateway_integration.test_int))
+    }
 
-#     lifecycle {
-#       create_before_destroy = true
-#     }
-# }
+    lifecycle {
+      create_before_destroy = true
+    }
+}
 
 # resource "aws_api_gateway_stage" "test_stage" {
 #     deployment_id = aws_api_gateway_deployment.test_deploy.id
