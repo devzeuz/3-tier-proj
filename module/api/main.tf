@@ -8,12 +8,12 @@ resource "aws_api_gateway_resource" "test_resource" {
   path_part   = "resource"
 }
 
-# resource "aws_api_gateway_method" "test_method" {
-#     rest_api_id = aws_api_gateway_rest_api.test_api.id
-#   resource_id = aws_api_gateway_resource.test_resource.id
-#   http_method = var.http_method
-#   authorization = "NONE"
-# }
+resource "aws_api_gateway_method" "test_method" {
+    rest_api_id = aws_api_gateway_rest_api.test_api.id
+  resource_id = aws_api_gateway_resource.test_resource.id
+  http_method = var.http_method
+  authorization = "NONE"
+}
 
 # resource "aws_api_gateway_integration" "test_int" {
 #   rest_api_id = aws_api_gateway_rest_api.test_api.id

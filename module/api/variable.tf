@@ -2,9 +2,9 @@
 #     type = string
 # }
 
-# variable "http_method"{
-#     default = "POST"
-# }
+variable "http_method"{
+    default = "POST"
+}
 
 # variable "aws_region" {
 #    type = string
