@@ -1,5 +1,6 @@
 module "s3" {
   source = "./module/s3"
+  identifier_arn = module.s3.identifier_arn
 }
 
 module "dynamodb" {
