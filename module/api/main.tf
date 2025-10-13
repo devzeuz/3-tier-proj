@@ -20,7 +20,7 @@ resource "aws_api_gateway_integration" "test_int" {
   http_method = aws_api_gateway_method.test_method.http_method
   resource_id = aws_api_gateway_resource.test_resource.id
   type = "AWS_PROXY"
-  uri = var.function_uri
+  uri = local.function_uri
 }
 
 resource "aws_api_gateway_deployment" "test_deploy" {
