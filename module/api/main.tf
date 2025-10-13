@@ -11,16 +11,17 @@ resource "aws_api_gateway_resource" "test_resource" {
 resource "aws_api_gateway_method" "test_method" {
     rest_api_id = aws_api_gateway_rest_api.test_api.id
   resource_id = aws_api_gateway_resource.test_resource.id
-  http_method = "POST"
+  http_method = var.http_method
   authorization = "NONE"
 }
 
 resource "aws_api_gateway_integration" "test_int" {
-  http_method = aws_api_gateway_method.test_method.http_method
+  http_method = var.http_method
   resource_id = aws_api_gateway_resource.test_resource.id
   rest_api_id = aws_api_gateway_rest_api.test_api.id
   type = "AWS_PROXY"
   uri = var.lambda_function_arn
+  
 }
 
 resource "aws_api_gateway_deployment" "test_deploy" {
