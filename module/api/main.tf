@@ -1,5 +1,9 @@
 resource "aws_api_gateway_rest_api" "test_api" {
   name = "test_api"
+
+  endpoint_configuration {
+    types = ["REGIONAL"]
+  }
 }
 
 resource "aws_api_gateway_resource" "test_resource" {
@@ -21,20 +25,27 @@ resource "aws_api_gateway_integration" "test_int" {
   http_method = aws_api_gateway_method.test_method.http_method
   resource_id = aws_api_gateway_resource.test_resource.id
   type = "AWS_PROXY"
-  uri = local.function_uri
+  integration_http_method = "POST"
+  uri = aws_api_gateway_rest_api.test_api.lambda_function_arn
 }
 
-# resource "aws_api_gateway_deployment" "test_deploy" {
-#     rest_api_id = aws_api_gateway_rest_api.test_api.id
+resource "aws_api_gateway_deployment" "test_deploy" {
+    rest_api_id = aws_api_gateway_rest_api.test_api.id
 
-#     triggers = {
-#       redeployment = sha1(jsonencode(aws_api_gateway_integration.test_int))
-#     }
+    triggers = {
+      redeployment = sha1(jsondecode([
+        aws_api_gateway_integration.test_int.id,
+        aws_api_gateway_method.test_method.id,
+        aws_api_gateway_resource.test_resource.id,
+      ]))
+    }
 
-#     lifecycle {
-#       create_before_destroy = true
-#     }
-# }
+    lifecycle {
+      create_before_destroy = true
+    }
+
+    depends_on = [ aws_api_gateway_integration.test_int ]
+}
 
 # resource "aws_api_gateway_stage" "test_stage" {
 #     deployment_id = aws_api_gateway_deployment.test_deploy.id
