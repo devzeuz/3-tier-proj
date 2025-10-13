@@ -35,8 +35,8 @@ resource "aws_api_gateway_deployment" "test_deploy" {
     }
 }
 
-# resource "aws_api_gateway_stage" "test_stage" {
-#     deployment_id = aws_api_gateway_deployment.test_deploy.id
-#     rest_api_id = aws_api_gateway_rest_api.test_api.id
-#     stage_name = "test"
-# }
+resource "aws_api_gateway_stage" "test_stage" {
+    deployment_id = aws_api_gateway_deployment.test_deploy.id
+    rest_api_id = aws_api_gateway_rest_api.test_api.id
+    stage_name = "test"
+}
