@@ -21,19 +21,20 @@ resource "aws_s3_bucket_policy" "app_bucket_policy" {
   bucket = aws_s3_bucket.app_bucket.id
 
   policy = jsonencode({
-    Version = "2012-10-17"
+    Version   = "2012-10-17",
     Statement = [
       {
-        Effect = "Allow"
-        Action = ["s3:GetObject"]
-
+        Effect    = "Allow",
+        Action    = ["s3:GetObject"],
         Principal = {
           AWS = [var.identifier_arn]
-        }
-        Resource = "${aws_s3_bucket.app_bucket.arn}/*"
-  }]
+        },
+        Resource  = "${aws_s3_bucket.app_bucket.arn}/*"
+      }
+    ]
   })
 }
+
 
 resource aws_s3_bucket_website_configuration "app_bucket_website" {
   bucket = aws_s3_bucket.app_bucket.id
