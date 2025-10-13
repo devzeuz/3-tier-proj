@@ -33,7 +33,7 @@ resource "aws_api_gateway_deployment" "test_deploy" {
     rest_api_id = aws_api_gateway_rest_api.test_api.id
 
     triggers = {
-      redeployment = sha1(jsondecode([
+      redeployment = sha1(jsonencode([
         aws_api_gateway_integration.test_int.id,
         aws_api_gateway_method.test_method.id,
         aws_api_gateway_resource.test_resource.id,
