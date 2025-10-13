@@ -29,21 +29,23 @@ resource aws_s3_bucket_website_configuration "app_bucket_website" {
   }
 }
 
-# resource "aws_s3_bucket_policy" "app_bucket_policy" {
-#   bucket = aws_s3_bucket.app_bucket.id
+resource "aws_s3_bucket_policy" "app_bucket_policy" {
+  bucket = aws_s3_bucket.app_bucket.id
 
-#   policy = jsonencode({
-#     Version   = "2012-10-17",
-#     Statement = [
-#       {
-#         Effect    = "Allow",
-#         Action    = ["s3:GetObject"],
-#         Principal = "*",
-#         Resource  = "${aws_s3_bucket.app_bucket.arn}/*"
-#       }
-#     ]
-#   })
-# }
+  policy = jsonencode({
+    Version   = "2012-10-17",
+    Statement = [
+      {
+        Effect    = "Allow",
+        Action    = ["s3:GetObject"],
+        Principal = "*",
+        Resource  = "${aws_s3_bucket.app_bucket.arn}/*"
+      }
+    ]
+  })
+
+  depends_on = [ aws_s3_bucket_public_access_block.app_bucket_public_access ]
+}
 
 # resource "aws_s3_bucket_object" "index" {
 #   bucket = aws_s3_bucket.app_bucket.bucket
