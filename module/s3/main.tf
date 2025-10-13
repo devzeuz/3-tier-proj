@@ -25,8 +25,12 @@ resource "aws_s3_bucket_policy" "app_bucket_policy" {
     Statement = [
       {
         Effect = "Allow"
-        Principal = "*"
         Action = "s3:GetObject"
+
+        principals = {
+          type = "AWS"
+          identifiers = var.identifier_arn
+        }
         Resource = "${aws_s3_bucket.app_bucket.arn}/*"
       }
     ]

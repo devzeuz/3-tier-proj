@@ -15,3 +15,7 @@ variable error_document {
   type        = string
   default     = "error.html" 
 }
+
+variable "identifier_arn"{
+  type = string
+}
