@@ -3,6 +3,6 @@ variable "lambda_function_arn"{
 }
 
 variable "http_method"{
-    type  ="string"
+    type  = string
     default = "POST"
 }
