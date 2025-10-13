@@ -44,3 +44,11 @@ resource aws_s3_bucket_website_configuration "app_bucket_website" {
     key = var.error_document
   }
 }
+
+# resource "aws_s3_bucket_object" "index" {
+#   bucket = aws_s3_bucket.app_bucket.bucket
+#   key    = "index.html"
+#   source = "${path.module}/src/index.html"
+#   acl    = "public-read"
+#   content_type = "text/html"
+# }
