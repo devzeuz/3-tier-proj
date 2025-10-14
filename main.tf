@@ -18,3 +18,8 @@ module "api" {
   aws_region = var.aws_region
 }
 
+# module "ssm" {
+#   source = "./module/ssm"
+#   api_gateway_endpoint_ssm_variable = module.api.api_gateway_endpoint
+# }
+
