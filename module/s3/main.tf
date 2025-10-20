@@ -54,5 +54,5 @@ resource "aws_s3_object" "index" {
   acl    = "public-read"
   content_type = "text/html"
 
-  depends_on = [ aws_s3_bucket.app_bucket.id, aws_s3_bucket_website_configuration.app_bucket_website ]
+  depends_on = [ aws_s3_bucket.app_bucket.bucket, aws_s3_bucket_website_configuration.app_bucket_website ]
 }
