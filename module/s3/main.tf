@@ -53,4 +53,6 @@ resource "aws_s3_object" "index" {
   source = "${path.module}/src/index.html"
   acl    = "public-read"
   content_type = "text/html"
+
+  depends_on = [ aws_s3_bucket.app_bucket.id, aws_s3_bucket_website_configuration.app_bucket_website ]
 }
