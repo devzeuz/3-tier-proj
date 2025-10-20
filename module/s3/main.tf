@@ -17,7 +17,7 @@ resource "aws_s3_bucket_public_access_block" "app_bucket_public_access" {
   
 }
 
-resource aws_s3_bucket_website_configuration "app_bucket_website" {
+resource "aws_s3_bucket_website_configuration" "app_bucket_website" {
   bucket = aws_s3_bucket.app_bucket.id
 
   index_document {
