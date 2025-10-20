@@ -7,10 +7,10 @@ module "dynamodb" {
   source = "./module/dynamodb"
 }
 
-module "lambda" {
-  source = "./module/lambda"
-  lambda_module_table_name = module.dynamodb.dynamodb_table_name
-}
+# module "lambda" {
+#   source = "./module/lambda"
+#   lambda_module_table_name = module.dynamodb.dynamodb_table_name
+# }
 
 module "api" {
   source              = "./module/api"
