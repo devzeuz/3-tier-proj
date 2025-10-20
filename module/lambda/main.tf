@@ -41,4 +41,6 @@ resource "aws_lambda_function" "my_lambda" {
         name = "my-lambda-function"
         environment = "dev"
     }
+
+    depends_on = [ aws_iam_role.iam_for_lambda ]
 }
