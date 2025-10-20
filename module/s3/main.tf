@@ -47,12 +47,12 @@ resource "aws_s3_bucket_policy" "app_bucket_policy" {
   depends_on = [ aws_s3_bucket_public_access_block.app_bucket_public_access ]
 }
 
-resource "aws_s3_object" "index" {
-  bucket = aws_s3_bucket.app_bucket.bucket
-  key    = "index.html"
-  source = "${path.module}/src/index.html"
-  acl    = "public-read"
-  content_type = "text/html"
+# resource "aws_s3_object" "index" {
+#   bucket = aws_s3_bucket.app_bucket.bucket
+#   key    = "index.html"
+#   source = "${path.module}/src/index.html"
+#   acl    = "public-read"
+#   content_type = "text/html"
 
-  depends_on = [ aws_s3_bucket.app_bucket, aws_s3_bucket_website_configuration.app_bucket_website ]
-}
+#   depends_on = [ aws_s3_bucket.app_bucket, aws_s3_bucket_website_configuration.app_bucket_website ]
+# }
