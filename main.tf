@@ -23,3 +23,7 @@ module "api" {
 #   api_gateway_endpoint_ssm_variable = module.api.api_gateway_endpoint
 # }
 
+output {
+  value = "Hello world"
+}
+
