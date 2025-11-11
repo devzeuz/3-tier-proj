@@ -53,7 +53,7 @@ resource "aws_s3_bucket_policy" "app_bucket_policy" {
       ]  
   })
 
-  depends_on = [ aws_s3_bucket_public_access_block.app_bucket_public_access ]
+  depends_on = [ aws_s3_bucket_public_access_block.app_bucket_public_access, var.cloudfrontarn  ]
 }
 
 # resource "aws_s3_object" "index" {
