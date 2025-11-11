@@ -39,7 +39,7 @@ resource "aws_s3_bucket_policy" "app_bucket_policy" {
           Sid = "AllowCloudFrontServicePrincipal"
         Effect = "Allow"
         Principal = {
-          service = "cloudfront.amazonaws.com"
+          Service = "cloudfront.amazonaws.com"
         }
         Action = "s3:GetObject"
       Resource = "${aws_s3_bucket.app_bucket.arn}/*"
@@ -53,7 +53,7 @@ resource "aws_s3_bucket_policy" "app_bucket_policy" {
       ]  
   })
 
-  depends_on = [ aws_s3_bucket_public_access_block.app_bucket_public_access, var.cloudfrontarn  ]
+  depends_on = [ aws_s3_bucket_public_access_block.app_bucket_public_access  ]
 }
 
 # resource "aws_s3_object" "index" {

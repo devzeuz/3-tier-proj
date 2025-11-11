@@ -1,6 +1,6 @@
 module "s3" {
   source        = "./module/s3"
-  cloudfrontarn = module.cloudfront.aws_cloudfront_distribution.main.arn
+  cloudfrontarn = ""
 }
 
 module "dynamodb" {
