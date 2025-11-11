@@ -33,15 +33,24 @@ resource "aws_s3_bucket_policy" "app_bucket_policy" {
   bucket = aws_s3_bucket.app_bucket.id
 
   policy = jsonencode({
-    Version   = "2012-10-17",
-    Statement = [
-      {
-        Effect    = "Allow",
-        Action    = ["s3:GetObject"],
-        Principal = "*",
-        Resource  = "${aws_s3_bucket.app_bucket.arn}/*"
+      Version = "2012-10-17"
+      Statement = [
+        {
+          Sid = "AllowCloudFrontServicePrincipal"
+        Effect = "Allow"
+        Principal = {
+          service = "cloudfront.amazonaws.com"
+        }
+        Action = "s3:GetObject"
+      Resource = "${aws_s3_bucket.app_bucket.arn}/*"
+
+      Condition = {
+        StringEquals = {
+          "aws:SourceArn" = var.cloudfrontarn
+        }
       }
-    ]
+        }
+      ]  
   })
 
   depends_on = [ aws_s3_bucket_public_access_block.app_bucket_public_access ]

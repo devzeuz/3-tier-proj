@@ -16,6 +16,10 @@ variable error_document {
   default     = "error.html" 
 }
 
+variable "cloudfrontarn" {
+  type        = string
+}
+
 # variable "identifier_arn"{
 #   type = string
 # }
