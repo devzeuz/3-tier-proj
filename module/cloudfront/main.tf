@@ -1,5 +1,5 @@
 resource "aws_cloudfront_origin_access_control" "main" {
-  name                              = "s3-oac-${var.s3_bucket_id}"
+  name                              = "${var.s3_bucket_id}"
   description                       = "OAC for S3 bucket"
   origin_access_control_origin_type = "s3"
   signing_behavior                  = "always"
@@ -17,7 +17,7 @@ resource "aws_cloudfront_distribution" "main" {
   # S3 Origin Configuration
   origin {
     domain_name              = var.s3_bucket_domain
-    origin_id                = "S3-${var.s3_bucket_id}"
+    origin_id                = "${var.s3_bucket_id}"
     origin_access_control_id = aws_cloudfront_origin_access_control.main.id
   }
 
@@ -25,7 +25,7 @@ resource "aws_cloudfront_distribution" "main" {
   default_cache_behavior {
     allowed_methods  = ["GET", "HEAD", "OPTIONS"]
     cached_methods   = ["GET", "HEAD"]
-    target_origin_id = "S3-${var.s3_bucket_id}"
+    target_origin_id = "${var.s3_bucket_id}"
 
     forwarded_values {
       query_string = false
