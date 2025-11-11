@@ -2,6 +2,7 @@ import json
 import boto3
 import uuid
 import logging
+import os
 from datetime import datetime
 
 
@@ -10,7 +11,7 @@ logger.setLevel(logging.INFO)
 
 table_name = os.environ["DYNAMO_DB"]
 dynamodb = boto3.resource("dynamodb")
-table = dynamodb.Table("table-name")
+table = dynamodb.Table(table_name)
 
 def lambda_handler(event, context):
     logger.info("EVENT RECEIVED: %s", json.dumps(event))
@@ -26,7 +27,8 @@ def lambda_handler(event, context):
 
         
         item = {
-            "res": reservation_id,  # Partition key
+            "user_id": body.get("user_id", "anonymous"),
+            "reservation_id": reservation_id,
             "name": body.get("name"),
             "phone": body.get("phone"),
             "date": body.get("date"),

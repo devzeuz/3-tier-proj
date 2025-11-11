@@ -15,6 +15,16 @@ resource "aws_iam_role" "iam_for_lambda"{
     assume_role_policy = data.aws_iam_policy_document.assume_role.json
 }
 
+resource "aws_iam_role_policy_attachment" "lambda_dynamodb" {
+    role = aws_iam_role.iam_for_lambda.name
+    policy_arn = "arn:aws:iam::aws:policy/AmazonDynamoDBFullAccess"
+}
+
+resource "aws_iam_role_policy_attachment" "lambda_basic" {
+    role = aws_iam_role.iam_for_lambda.name
+    policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+}
+
 resource "archive_file" "zip-lambda"{
     type = "zip"
     source_file = "${path.module}/src/lambda-function.py"

@@ -11,7 +11,7 @@ resource "aws_dynamodb_table" "proj_table" {
 
     attribute {
         name = "reservation_id"
-        type ="N"
+        type ="S"
     }
 
     tags = {
