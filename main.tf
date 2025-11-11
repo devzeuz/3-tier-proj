@@ -18,15 +18,12 @@ module "api" {
   aws_region          = var.aws_region
 }
 
-# module "ssm" {
-#   source = "./module/ssm"
-#   api_gateway_endpoint_ssm_variable = module.api.api_gateway_endpoint
-# }
 
+#Access internal resources (e.g id,  domain name) through outputs 
 module "cloudfront" {
   source       = "./module/cloudfront"
-  s3_bucket_id = module.s3.aws_s3_bucket.app_bucket.id
-  s3_bucket_domain = module.s3.aws_s3_bucket.app_bucket.bucket_regional_domain_name
+  s3_bucket_id = module.s3.bucket_id
+  s3_bucket_domain = module.s3.bucket_domain_name
 }
 
 output "gateway-endpoint" {
