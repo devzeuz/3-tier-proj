@@ -19,14 +19,6 @@ resource "aws_api_gateway_method" "test_method" {
   authorization = "NONE"
 }
 
-resource "aws_lambda_permission" "api_gateway" {
-  statement_id  = "AllowAPIGatewayInvoke"
-  action        = "lambda:InvokeFunction"
-  function_name = var.lambda_function_name
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.test_api.execution_arn}/*/*"
-}
-
 resource "aws_api_gateway_integration" "test_int" {
   depends_on = [ aws_api_gateway_method.test_method ]
   rest_api_id = aws_api_gateway_rest_api.test_api.id
@@ -34,7 +26,7 @@ resource "aws_api_gateway_integration" "test_int" {
   resource_id = aws_api_gateway_resource.test_resource.id
   type = "AWS_PROXY"
   integration_http_method = "POST"
-  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_function_arn}/invocations"
+  uri = var.lambda_function_arn
 }
 
 
@@ -85,8 +77,6 @@ resource "aws_api_gateway_integration_response" "options_integration_response" {
     "method.response.header.Access-Control-Allow-Methods" = "'POST,OPTIONS'"
     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
   }
-
-  depends_on = [ aws_api_gateway_method_response.options_response ]
 }
 
 resource "aws_api_gateway_deployment" "test_deploy" {
