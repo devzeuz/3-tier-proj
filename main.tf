@@ -1,6 +1,6 @@
 module "s3" {
   source        = "./module/s3"
-  cloudfrontarn = module.aws_cloudfront_distribution.main.arn
+  cloudfrontarn = module.cloudfront.aws_cloudfront_distribution.main.arn
 }
 
 module "dynamodb" {
@@ -34,7 +34,7 @@ output "gateway-endpoint" {
 }
 
 output "cloudfront_domain_name"{
-  value =module.cloudfront.cloudfront_domain_name
+  value = module.cloudfront.cloudfront_domain_name
 }
 
 
