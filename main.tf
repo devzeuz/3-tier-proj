@@ -14,7 +14,8 @@ module "lambda" {
 
 module "api" {
   source              = "./module/api"
-  lambda_function_arn = module.lambda.lambda_invocation_arn
+  lambda_function_arn = module.lambda.lambda_function_arn
+  lambda_invoke_arn   = module.lambda.lambda_invocation_arn
   aws_region          = var.aws_region
 }
 

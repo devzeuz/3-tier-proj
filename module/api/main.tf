@@ -26,7 +26,7 @@ resource "aws_api_gateway_integration" "test_int" {
   resource_id = aws_api_gateway_resource.test_resource.id
   type = "AWS_PROXY"
   integration_http_method = "POST"
-  uri = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_function_arn}/invocations"
+  uri = var.lambda_invoke_arn
 }
 
 resource "aws_lambda_permission" "api_gateway" {
