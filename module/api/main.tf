@@ -119,8 +119,8 @@ resource "aws_api_gateway_deployment" "test_deploy" {
       redeployment = sha1(jsonencode([
         aws_api_gateway_method.test_method.id,
         aws_api_gateway_integration.test_int.id,
-        aws_api_gateway_method_response.method_200.id,
-        aws_api_gateway_integration_response.method_200.id,
+        aws_api_gateway_method_response.options_response.id,
+        aws_api_gateway_integration_response.options_integration_response.id,
         aws_api_gateway_method.options_hello.id,
         aws_api_gateway_integration.options_integration.id,
         aws_api_gateway_method_response.options_response.id,
