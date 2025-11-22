@@ -26,17 +26,9 @@ resource "aws_api_gateway_integration" "test_int" {
   resource_id = aws_api_gateway_resource.test_resource.id
   type = "AWS_PROXY"
   integration_http_method = "POST"
-  uri = var.lambda_invoke_arn
+  # uri = var.lambda_invoke_arn
+  uri                      = "arn:aws:apigateway:${var.aws_region}:lambda:path/2015-03-31/functions/${var.lambda_function_arn}/invocations"
 }
-
-resource "aws_lambda_permission" "api_gateway" {
-  statement_id  = "AllowAPIGatewayInvoke"
-  action        = "lambda:InvokeFunction"
-  function_name = var.lambda_function_arn
-  principal     = "apigateway.amazonaws.com"
-  source_arn    = "${aws_api_gateway_rest_api.test_api.execution_arn}/*/*"
-}
-
 
 #CORS Preflight (OPTIONS Method)
 resource "aws_api_gateway_method" "options_hello" {
@@ -58,7 +50,6 @@ resource "aws_api_gateway_integration" "options_integration" {
 }
 
 
-# 6️⃣ Add Method Response (so CORS headers appear)
 resource "aws_api_gateway_method_response" "options_response" {
   rest_api_id = aws_api_gateway_rest_api.test_api.id
   resource_id = aws_api_gateway_resource.test_resource.id
@@ -73,7 +64,6 @@ resource "aws_api_gateway_method_response" "options_response" {
 }
 
 
-# 7️⃣ Integration Response with CORS headers
 resource "aws_api_gateway_integration_response" "options_integration_response" {
   rest_api_id = aws_api_gateway_rest_api.test_api.id
   resource_id = aws_api_gateway_resource.test_resource.id
@@ -81,10 +71,45 @@ resource "aws_api_gateway_integration_response" "options_integration_response" {
   status_code = aws_api_gateway_method_response.options_response.status_code
 
   response_parameters = {
-    "method.response.header.Access-Control-Allow-Headers" = "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
-    "method.response.header.Access-Control-Allow-Methods" = "'POST,OPTIONS'"
     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+    "method.response.header.Access-Control-Allow-Headers" = "'*'"
+    "method.response.header.Access-Control-Allow-Methods" = "POST, OPTIONS"
   }
+}
+
+# resource "aws_api_gateway_method_response" "method_200" {
+#   rest_api_id = aws_api_gateway_rest_api.test_api.id
+#   resource_id = aws_api_gateway_resource.test_resource.id
+#   http_method = "POST"
+#   status_code = "200"
+
+#   response_parameters = {
+#     "method.response.header.Access-Control-Allow-Origin"  = true
+#     "method.response.header.Access-Control-Allow-Headers" = true
+#     "method.response.header.Access-Control-Allow-Methods" = true
+#   }
+# }
+
+
+# resource "aws_api_gateway_integration_response" "method_200" {
+#   rest_api_id = aws_api_gateway_rest_api.test_api.id
+#   resource_id = aws_api_gateway_resource.test_resource.id
+#   http_method = aws_api_gateway_method.options_hello.http_method
+#   status_code = "200"
+
+#   response_parameters = {
+#     "method.response.header.Access-Control-Allow-Origin"  = "'*'"
+#     "method.response.header.Access-Control-Allow-Headers" = "'*'"
+#     "method.response.header.Access-Control-Allow-Methods" = "POST, OPTIONS"
+#   }
+# }
+
+resource "aws_lambda_permission" "api_gateway" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = var.lambda_function_arn
+  principal     = "apigateway.amazonaws.com"
+  source_arn    = "${aws_api_gateway_rest_api.test_api.execution_arn}/*/*/*"
 }
 
 resource "aws_api_gateway_deployment" "test_deploy" {
@@ -92,13 +117,15 @@ resource "aws_api_gateway_deployment" "test_deploy" {
 
     triggers = {
       redeployment = sha1(jsonencode([
-        aws_api_gateway_integration.test_int.id,
         aws_api_gateway_method.test_method.id,
-        aws_api_gateway_resource.test_resource.id,
+        aws_api_gateway_integration.test_int.id,
+        aws_api_gateway_method_response.method_200.id,
+        aws_api_gateway_integration_response.method_200.id,
         aws_api_gateway_method.options_hello.id,
         aws_api_gateway_integration.options_integration.id,
         aws_api_gateway_method_response.options_response.id,
-        aws_api_gateway_integration_response.options_integration_response.id
+        aws_api_gateway_integration_response.options_integration_response.id,
+        aws_api_gateway_resource.test_resource.id
       ]))
     }
 
